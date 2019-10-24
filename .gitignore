@@ -1,0 +1,42 @@
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docs
+docs/
+
+# Node
+node_modules/**/*
+npm-debug.*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Yarn
+.yarn-integrity
+yarn-error.log
+
+# dotenv environment variables file
+.env
+
+# OSX
+.DS_Store
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.Trash-*
+*.tgz
+.watchmanconfig

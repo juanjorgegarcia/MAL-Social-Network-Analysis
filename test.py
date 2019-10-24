@@ -31,9 +31,26 @@ async def main(loop):
     # print(mushishi)
     # usernames = ['juanjg', 'thundersly', 'terabyte900']
     # jj = await aio_jikan.user(username='juanjg', request='animelist')
-    jj = await aio_jikan.user(username='juanjg', request='animelist')
+    # jj = await aio_jikan.user(username='juanjg')
+    # top_anime = await aio_jikan.top(type='anime')
+    # try:
+
+    mushishi = await aio_jikan.anime(15000)
+    # except:
+    #     mushishi = await aio_jikan.anime(1)
+
+    animes_data = []
+    # for i in range (5):
+    #     animes_data[i]= await aio_jikan.anime(i)
+
     # jj.keys()
-    print(jj['anime'])
+    # print(mushishi)
+    print(mushishi.keys())
+    # print(mushishi['source'])
+    # print(mushishi['related']['Adaptation'])
+
+    # print(mushishi['studios'])
+
     await aio_jikan.close()
 
 

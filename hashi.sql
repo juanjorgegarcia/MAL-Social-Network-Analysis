@@ -3,56 +3,56 @@ CREATE DATABASE malDatabase;
 USE malDatabase;
 
 CREATE TABLE Animes (
-    idAnime INT NOT NULL AUTO_INCREMENT,
+    idAnime INT NOT NULL ,
     title VARCHAR(100) NOT NULL UNIQUE,
-    titleEnglish VARCHAR(100) NOT NULL UNIQUE,
-    titleJapanese VARCHAR(100) NOT NULL UNIQUE,
-    titleSynonyms VARCHAR(100),
     animeType VARCHAR(30) NOT NULL,
-    source VARCHAR(100) NOT NULL,
+    derivedFrom VARCHAR(100) NOT NULL,
     numberEpisodes INT,
     airStatus VARCHAR(100),
     airing TINYINT(1) NOT NULL,
-    animeStart DATETIME,
-    animeFinish DATETIME,
-    duration INT,
+    animeStart  DATETIME,
+    animeFinish  DATETIME,
+    duration VARCHAR(100),
     rating VARCHAR(100),
     score DECIMAL(10,2),
     scored_by INT,
-    animeRank INT UNIQUE,
-    popularity INT UNIQUE,
+    animeRank INT ,
+    popularity INT ,
     members INT,
     favorites INT,
     premiered VARCHAR(100),
     broadcast VARCHAR(100),
-    idManga INT,
     PRIMARY KEY (idAnime)
 );
 
 CREATE TABLE Mangas (
-    idManga INT NOT NULL AUTO_INCREMENT,
+    idManga INT NOT NULL ,
     title VARCHAR(100) NOT NULL UNIQUE,
-    titleEnglish VARCHAR(100) NOT NULL UNIQUE,
-    titleJapanese VARCHAR(100) NOT NULL UNIQUE,
-    titleSynonyms VARCHAR(100),
     mangaType VARCHAR(30) NOT NULL,
     volumes INT,
     chapters INT,
     publishing TINYINT(1) NOT NULL,
     mangaStart DATETIME,
     mangaFinish DATETIME,
-    mangaRank INT UNIQUE,
+    mangaRank INT ,
     score DECIMAL(10,2),
     scored_by INT,
-    popularity INT UNIQUE,
+    popularity INT ,
     members INT,
     favorites INT,
-    idAnime INT,
     PRIMARY KEY (idManga)
 );
 
-CREATE TABLE Authors (
-    idAuthor INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE animeManga (
+    idAnime INT NOT NULL,
+    idManga INT NOT NULL,
+    PRIMARY KEY (idManga, idAnime),
+    FOREIGN KEY (idManga) REFERENCES Mangas (idManga),
+    FOREIGN KEY (idAnime) REFERENCES Animes (idAnime)
+);
+
+CREATE TABLE Author (
+    idAuthor INT NOT NULL,
     authorType VARCHAR(100),
     authorName VARCHAR(100) UNIQUE,
     PRIMARY KEY (idAuthor)
@@ -63,11 +63,11 @@ CREATE TABLE mangaAuthor (
     idAuthor INT NOT NULL,
     PRIMARY KEY (idManga, idAuthor),
     FOREIGN KEY (idManga) REFERENCES Mangas (idManga),
-    FOREIGN KEY (idAuthor) REFERENCES Authors (idAuthor)
+    FOREIGN KEY (idAuthor) REFERENCES Author (idAuthor)
 );
 
 CREATE TABLE Magazines (
-    idMagazine INT NOT NULL AUTO_INCREMENT,
+    idMagazine INT NOT NULL,
     magazineType VARCHAR(100),
     magazineName VARCHAR(100) UNIQUE,
     PRIMARY KEY (idMagazine)
@@ -82,7 +82,7 @@ CREATE TABLE mangaMagazine (
 );
 
 CREATE TABLE Producers (
-    idProducer INT NOT NULL AUTO_INCREMENT,
+    idProducer INT NOT NULL ,
     producerType VARCHAR(100),
     producerName VARCHAR(100) UNIQUE,
     PRIMARY KEY (idProducer)
@@ -97,7 +97,7 @@ CREATE TABLE animeProducer (
 );
 
 CREATE TABLE Licensors (
-    idLicensor INT NOT NULL AUTO_INCREMENT,
+    idLicensor INT NOT NULL,
     licensorType VARCHAR(100),
     licensorName VARCHAR(100) UNIQUE,
     PRIMARY KEY (idLicensor)
@@ -112,7 +112,7 @@ CREATE TABLE animeLicensor (
 );
 
 CREATE TABLE Studios (
-    idStudio INT NOT NULL AUTO_INCREMENT,
+    idStudio INT NOT NULL ,
     studioType VARCHAR(100),
     studioName VARCHAR(100) UNIQUE,
     PRIMARY KEY (idStudio)
@@ -127,10 +127,10 @@ CREATE TABLE animeStudio (
 );
 
 CREATE TABLE Genres (
-    idGenre INT NOT NULL AUTO_INCREMENT,
+    idGenre INT NOT NULL ,
     genreType VARCHAR(100),
-    genreName VARCHAR(100) UNIQUE,
-    PRIMARY KEY (idGenre)
+    genreName VARCHAR(100),
+    PRIMARY KEY (idGenre, genreType)
 );
 
 CREATE TABLE animeGenre(
@@ -149,5 +149,3 @@ CREATE TABLE mangaGenre(
     FOREIGN KEY (idGenre) REFERENCES Genres (idGenre)
 );
 
-ALTER TABLE Animes ADD FOREIGN KEY (idManga) REFERENCES Mangas(idManga);
-ALTER TABLE Mangas ADD FOREIGN KEY (idAnime) REFERENCES Animes(idAnime);

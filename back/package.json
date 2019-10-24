@@ -1,0 +1,22 @@
+{
+  "name": "mal-db-creator",
+  "version": "1.0.0",
+  "description": "A script created for consuming Jikan's Unofficial MyAnimeList API to populate a mysql database for social network analysis.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juan Jorge Garcia",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cross-fetch": "^3.0.4",
+    "express": "^4.17.1",
+    "jikan-node": "^1.2.0",
+    "moment": "^2.24.0",
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
