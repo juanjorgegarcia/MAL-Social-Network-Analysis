@@ -22,6 +22,7 @@ CREATE TABLE Animes (
     favorites INT,
     premiered VARCHAR(100),
     broadcast VARCHAR(100),
+    synopsis VARCHAR(2000),
     PRIMARY KEY (idAnime)
 );
 
@@ -40,6 +41,7 @@ CREATE TABLE Mangas (
     popularity INT ,
     members INT,
     favorites INT,
+    synopsis VARCHAR(2000),
     PRIMARY KEY (idManga)
 );
 

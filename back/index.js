@@ -23,7 +23,7 @@ con.connect();
 async function req() {
   let url = "https://api.jikan.moe/v3/anime/";
 
-  for (let index = 0; index < 2000; index++) {
+  for (let index = 21405; index < 50000; index++) {
     const res = await fetch(`https://api.jikan.moe/v3/anime/${index}`, {
       method: "GET"
     });
@@ -55,7 +55,8 @@ async function req() {
         studios,
         genres,
         producers,
-        licensors
+        licensors,
+        synopsis
       } = animeInfo;
 
 
@@ -87,7 +88,9 @@ async function req() {
           members ,
           favorites ,
           premiered,
-          broadcast) values (?,
+          broadcast,
+          synopsis) values (?,
+            ?,
             ?,
             ?,
             ?,
@@ -125,7 +128,8 @@ async function req() {
         members,
         favorites,
         premiered,
-        broadcast
+        broadcast,
+        synopsis
       ])
       query.on('error', function (err) {
           // Handle error, an 'end' event will be emitted after this as well
@@ -186,7 +190,8 @@ async function req() {
             favorites,
             genres,
             authors,
-            serializations
+            serializations,
+            synopsis
 
           } = mangaInfo
 
@@ -208,7 +213,9 @@ async function req() {
               scored_by ,
               popularity ,
               members ,
-              favorites) values (?,
+              favorites,
+              synopsis) values (?,
+              ?,
               ?,
               ?,
               ?,
@@ -236,7 +243,8 @@ async function req() {
             scored_by,
             popularity,
             members,
-            favorites
+            favorites, 
+            synopsis
           ])
           const mangaId = mal_id
           manga.on('error', function (err) {
