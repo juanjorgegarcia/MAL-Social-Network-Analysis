@@ -60,6 +60,13 @@ for i in range(50):
 for i in range(len(anime_synopsis)):
     anime_arr = anime_nmf.transform(anime_tf_vectorizer.transform([anime_synopsis[i]]))
     anime_topic = np.where(anime_arr[0] == np.amax(anime_arr[0]))[0][0]
+
+    # print(np.amax(anime_arr[0]), anime_arr[0][0])
+
+    if np.amax(anime_arr[0]) == anime_arr[0][0]:
+        anime_topic = np.where(anime_arr[0] == np.sort(anime_arr[0])[-2])[0][0]
+        
+
     if anime_scores[i] is None:
         f.write('  node [ id %s title "%s" topic %d type "anime" score 0.0 ]\n' % (i+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), anime_topic))
         f.write('  edge [ source %s target %s ]\n' % (anime_topic, i+50))
@@ -94,6 +101,10 @@ for i in range(50):
 for i in range(len(manga_synopsis)):
     manga_arr = manga_nmf.transform(manga_tf_vectorizer.transform([manga_synopsis[i]]))
     manga_topic = np.where(manga_arr[0] == np.amax(manga_arr[0]))[0][0]
+
+    if np.amax(manga_arr[0]) == manga_arr[0][0]:
+        manga_topic = np.where(manga_arr[0] == np.sort(manga_arr[0])[-2])[0][0]
+
     if manga_scores[i] is None:
         f.write('  node [ id %s title "%s" topic %d type "manga" score 0.0 ]\n' % (i+50, (unidecode(manga_title[i]).replace('"', "")).replace("'", ""), manga_topic))
         f.write('  edge [ source %s target %s ]\n' % (manga_topic, i+50))
