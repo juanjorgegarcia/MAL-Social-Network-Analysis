@@ -53,67 +53,68 @@ anime_nmf.fit(anime_tf_count)
 
 f = open('animetopic.gml','w+', encoding="ascii")
 f.write('graph [\n  directed 1\n')
-contador = 0
-for i in range(50): 
-    f.write('  node [ id %s title "" topic -1 type "topic" score %f ]\n' % (i, 0.0))
 
+for i in range(50): 
+    f.write('  node [ id %s title "" topic -1 corr -1 type "topic" score %f ]\n' % (i, 0.0))
+
+contador = 0
 for i in range(len(anime_synopsis)):
     anime_arr = anime_nmf.transform(anime_tf_vectorizer.transform([anime_synopsis[i]]))
-    anime_topic = np.where(anime_arr[0] == np.amax(anime_arr[0]))[0][0]
+    # print(np.sort(anime_arr[0]))
+    # print(anime_arr[0])
 
-    # print(np.amax(anime_arr[0]), anime_arr[0][0])
+    for j in range(50):
+        anime_topic = anime_arr[0][j]
 
-    if np.amax(anime_arr[0]) == anime_arr[0][0]:
-        anime_topic = np.where(anime_arr[0] == np.sort(anime_arr[0])[-2])[0][0]
-        
-
-    if anime_scores[i] is None:
-        f.write('  node [ id %s title "%s" topic %d type "anime" score 0.0 ]\n' % (i+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), anime_topic))
-        f.write('  edge [ source %s target %s ]\n' % (anime_topic, i+50))
-    else:
-        f.write('  node [ id %s title "%s" topic %d type "anime" score %f ]\n' % (i+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), anime_topic, anime_scores[i]))
-        f.write('  edge [ source %s target %s ]\n' % (anime_topic, i+50))
-
-f.write(' ]')
-f.close()
-
-#################### MANGAS ####################
-
-manga_tf_vectorizer = TfidfVectorizer(max_df=0.90, min_df=5,
-                                max_features=n_features,
-                                stop_words='english')
-
-manga_tf_vectorizer.fit(manga_synopsis)
-
-
-manga_tf_count = manga_tf_vectorizer.transform(manga_synopsis)
-
-manga_nmf = NMF(n_components=50, random_state=1, alpha=0.1, l1_ratio=0.5)
-
-manga_nmf.fit(manga_tf_count)
-
-f = open('mangatopic.gml','w+', encoding="ascii")
-f.write('graph [\n  directed 1\n')
-contador = 0
-for i in range(50):
-    f.write('  node [ id %s title "" topic -1 type "topic" score %f ]\n' % (i, 0.0))
-
-for i in range(len(manga_synopsis)):
-    manga_arr = manga_nmf.transform(manga_tf_vectorizer.transform([manga_synopsis[i]]))
-    manga_topic = np.where(manga_arr[0] == np.amax(manga_arr[0]))[0][0]
-
-    if np.amax(manga_arr[0]) == manga_arr[0][0]:
-        manga_topic = np.where(manga_arr[0] == np.sort(manga_arr[0])[-2])[0][0]
-
-    if manga_scores[i] is None:
-        f.write('  node [ id %s title "%s" topic %d type "manga" score 0.0 ]\n' % (i+50, (unidecode(manga_title[i]).replace('"', "")).replace("'", ""), manga_topic))
-        f.write('  edge [ source %s target %s ]\n' % (manga_topic, i+50))
-    else:
-        f.write('  node [ id %s title "%s" topic %d type "manga" score %f ]\n' % (i+50, (unidecode(manga_title[i]).replace('"', "")).replace("'", ""), manga_topic, manga_scores[i]))
-        f.write('  edge [ source %s target %s ]\n' % (manga_topic, i+50))
+        if anime_scores[i] is None:
+            f.write('  node [ id %s title "%s" topic %d corr %f type "anime" score 0.0 ]\n' % (i+contador+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), j+1, anime_topic))
+            f.write('  edge [ source %s target %s ]\n' % (j+1, i+contador+50))
+        else:
+            f.write('  node [ id %s title "%s" topic %d corr %f type "anime" score %f ]\n' % (i+contador+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), j+1, anime_topic, anime_scores[i]))
+            f.write('  edge [ source %s target %s ]\n' % (j+1, i+contador+50))
+        contador += 1
+    contador -= 1
 
 f.write(' ]')
 f.close()
+
+# #################### MANGAS ####################
+
+# manga_tf_vectorizer = TfidfVectorizer(max_df=0.90, min_df=5,
+#                                 max_features=n_features,
+#                                 stop_words='english')
+
+# manga_tf_vectorizer.fit(manga_synopsis)
+
+
+# manga_tf_count = manga_tf_vectorizer.transform(manga_synopsis)
+
+# manga_nmf = NMF(n_components=50, random_state=1, alpha=0.1, l1_ratio=0.5)
+
+# manga_nmf.fit(manga_tf_count)
+
+# f = open('mangatopic.gml','w+', encoding="ascii")
+# f.write('graph [\n  directed 1\n')
+# contador = 0
+# for i in range(50):
+#     f.write('  node [ id %s title "" topic -1 type "topic" score %f ]\n' % (i, 0.0))
+
+# for i in range(len(manga_synopsis)):
+#     manga_arr = manga_nmf.transform(manga_tf_vectorizer.transform([manga_synopsis[i]]))
+#     manga_topic = np.where(manga_arr[0] == np.amax(manga_arr[0]))[0][0]
+
+#     # if np.amax(manga_arr[0]) == manga_arr[0][0]:  # falta conferir os dados
+#     #     manga_topic = np.where(manga_arr[0] == np.sort(manga_arr[0])[-2])[0][0]
+
+#     if manga_scores[i] is None:
+#         f.write('  node [ id %s title "%s" topic %d type "manga" score 0.0 ]\n' % (i+50, (unidecode(manga_title[i]).replace('"', "")).replace("'", ""), manga_topic))
+#         f.write('  edge [ source %s target %s ]\n' % (manga_topic, i+50))
+#     else:
+#         f.write('  node [ id %s title "%s" topic %d type "manga" score %f ]\n' % (i+50, (unidecode(manga_title[i]).replace('"', "")).replace("'", ""), manga_topic, manga_scores[i]))
+#         f.write('  edge [ source %s target %s ]\n' % (manga_topic, i+50))
+
+# f.write(' ]')
+# f.close()
 
 
 
