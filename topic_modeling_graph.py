@@ -67,11 +67,11 @@ for i in range(len(anime_synopsis)):
         anime_topic = anime_arr[0][j]
 
         if anime_scores[i] is None:
-            f.write('  node [ id %s title "%s" topic %d corr %f type "anime" score 0.0 ]\n' % (i+contador+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), j+1, anime_topic))
-            f.write('  edge [ source %s target %s ]\n' % (j+1, i+contador+50))
+            f.write('  node [ id %s title "%s" topic %d corr %f type "anime" score 0.0 ]\n' % (i+contador+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), j, anime_topic))
+            f.write('  edge [ source %s target %s ]\n' % (j, i+contador+50))
         else:
-            f.write('  node [ id %s title "%s" topic %d corr %f type "anime" score %f ]\n' % (i+contador+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), j+1, anime_topic, anime_scores[i]))
-            f.write('  edge [ source %s target %s ]\n' % (j+1, i+contador+50))
+            f.write('  node [ id %s title "%s" topic %d corr %f type "anime" score %f ]\n' % (i+contador+50, (unidecode(anime_title[i]).replace('"', "")).replace("'", ""), j, anime_topic, anime_scores[i]))
+            f.write('  edge [ source %s target %s ]\n' % (j, i+contador+50))
         contador += 1
     contador -= 1
 
